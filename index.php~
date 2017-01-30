@@ -54,8 +54,8 @@ $newDate = date("m/d/Y", strtotime($originalDate));
 // set up a row for each record
 echo "<tr style='background-color:".$row_color.";'>";
 echo "<td>" . $row->id . "</td>";
-echo "<td><a href='profile.php?id=" . $row->id . "'>".$row->firstname . " " . $row->lastname . "</a></td>";
-//echo "<td>" . $row->firstname . " " . $row->lastname . "</td>";
+echo "<td>" . $row->firstname . " " . $row->lastname . "</td>";
+//echo "<td>" . $row->lastname . "</td>";
 echo "<td>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . $row->zip . "</td>";
 //echo "<td>" . $row->city . "</td>";
 //echo "<td>" . $row->state . "</td>";

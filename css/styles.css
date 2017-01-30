@@ -1,0 +1,15 @@
+body{
+font-family:helvetica;
+}
+
+.container{
+
+margin: 50px 200px 0px 200px;
+
+}
+
+.dog_image{
+width: 200px;
+float:right;
+
+}
