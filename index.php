@@ -18,21 +18,24 @@ font-family: helvetica;
 
 <form action='' method='POST' id='status_form'>
 <input type='hidden' name='id' value='".$row->id."'>
-<b>Order By: </b> <select name='status'>
+<b>Order By: </b> <select name='order'>
   <option value=''>Select...</option>
-  <option value='approved'>ID</option>
-  <option value='rejected'>First Name</option>
-  <option value='Last Name'>Last Name</option>
+  <option value='id'>ID</option>
+  <option value='firstname'>First Name</option>
+  <option value='lastname'>Last Name</option>
 </select>
 
-<input type='submit' name='submit' value='Submit'/>
+<input type='submit' name='orderby_submit' value='Submit'/>
 </form><br>
 
 <?php
 // connect to the database
 include('connect-db.php');
 
+$order_selected = htmlentities($_POST['order'], ENT_QUOTES);
+
 // get the records from the database
+
 if ($result = $mysqli->query("SELECT * FROM applicant_info ORDER BY id"))
 {
 // display records if there are records to display
