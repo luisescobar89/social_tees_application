@@ -36,8 +36,14 @@ $order_selected = htmlentities($_POST['order'], ENT_QUOTES);
 
 // get the records from the database
 
-if ($result = $mysqli->query("SELECT * FROM applicant_info ORDER BY id"))
+if ($order_selected == ''){
+$order_selected == 'id';
+}
+else{
+
+if ($result = $mysqli->query("SELECT * FROM applicant_info ORDER BY ".$order_selected.""))
 {
+
 // display records if there are records to display
 if ($result->num_rows > 0)
 {
@@ -154,7 +160,7 @@ $stmt1->close();
 //header("Location: index.php");
 echo "<meta http-equiv='refresh' content='0'>";
 }
-
+}
 
 // close database connection
 $mysqli->close();
