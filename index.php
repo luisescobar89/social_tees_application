@@ -16,6 +16,18 @@ font-family: helvetica;
 
 <p><b>View All</b> | <a href="search_record.php">Search</a> | <a href="new_record.php">Add New Record</a></p>
 
+<form action='' method='POST' id='status_form'>
+<input type='hidden' name='id' value='".$row->id."'>
+<b>Order By: </b> <select name='status'>
+  <option value=''>Select...</option>
+  <option value='approved'>ID</option>
+  <option value='rejected'>First Name</option>
+  <option value='Last Name'>Last Name</option>
+</select>
+
+<input type='submit' name='submit' value='Submit'/>
+</form><br>
+
 <?php
 // connect to the database
 include('connect-db.php');
