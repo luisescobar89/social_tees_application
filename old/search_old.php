@@ -12,20 +12,31 @@ font-family: helvetica;
 </head>
 <body>
 
-<h2>Search Results:</h2>
+<h1>Search Records</h1>
 
+<p><a href="index.php">View All</a> | <b>Search</b> | <a href="new_record.php">Add New Record</a></p>
 
-<a href="search_record.php">Back to Search</a> | <a href="index.php">View All</a>
-<br><br/>
+<form action="" method="POST">
+<b>Search by Last Name: </b>
+<input type="text" name="applicant_name"><br/><br/>
+<b>Search by ID: </b>
+<input type="number" name="applicant_id" value=""><br/><br/>
+<b>Search by Date: </b>
+<input type="date" name="date"><br/><br>
+
+<input type='submit' name='search_submit' value='Search'/>
+</form>
+<br/>
+<br/>
+
 <?php
-
 // connect to the database
 include('connect-db.php');
 
-$applicant_id = $_GET['applicant_id'];
-$applicant_name = $_GET['applicant_name'];
-$applicant_date = $_GET['date'];
-if (isset($_GET['search_submit'])){
+$applicant_id = $_POST['applicant_id'];
+$applicant_name = $_POST['applicant_name'];
+$applicant_date = $_POST['date'];
+if (isset($_POST['search_submit'])){
 
 //echo "<p> ID: ".$applicant_id." date: ".$applicant_date."</p>";
 
@@ -141,7 +152,7 @@ $stmt->execute();
 $stmt->close();
 }
 //header("Location: index.php");
-echo "<meta http-equiv='refresh' content='0'>";
+//echo "<meta http-equiv='refresh' content='0'>";
 }
 }
 
@@ -158,7 +169,7 @@ $stmt1->execute();
 $stmt1->close();
 }
 //header("Location: index.php");
-echo "<meta http-equiv='refresh' content='0'>";
+//echo "<meta http-equiv='refresh' content='0'>";
 }
 }
 
@@ -166,6 +177,8 @@ echo "<meta http-equiv='refresh' content='0'>";
 $mysqli->close();
 
 ?>
+
+
 
 
 </body>

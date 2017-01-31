@@ -61,49 +61,31 @@ $formatted_date = date("m/d/Y", strtotime($row->date));
 
 echo "<h2 style='background-color:".$row_color."'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments</a><br/><br>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
 if($row->dog_url == ''){
-echo "<p>No image  url provided</p>";
+echo "";
 }
 else{
 echo "<img class='dog_image' src='" . $row->dog_url . "'>";
 }
 
-echo "<p><b>Approval Status: </b> " . $row->status . "</p>";
 
-echo "<form action='' method='POST' id='status_form'>
-<input type='hidden' name='id' value='".$row->id."'>
-<b>Set Approval Status: </b> <select name='status'>
-  <option value=''>Select...</option>
-  <option value='approved'>Approved</option>
-  <option value='rejected'>Rejected</option>
-  <option value='pending'>Pending</option>
-</select>
 
-<input type='submit' name='submit' value='Submit'/>
-</form>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
-if ($row->status == 'rejected'){
-echo "<p><b>Application rejected on: </b>". $formatted_date . "</p>";
-}
-elseif ($row->status == 'approved'){
-echo "<p><b>Application approved on: </b>" . $formatted_date . "</p>";
-}
-else{
-echo "";
-}
+
+
+
 
 echo "<p><b>Dog(s) looking to adopt</b>:<br> " . $row->dog . "</p>";
 
 echo "<form action='' method='POST'>
 <input type='hidden' name='applicant_id' value='".$row->id."'>
 <b>Dog image URL: </b><br>
-<textarea rows='2' name='dog_url' cols='30'>
-".$row->dog_url . "
-</textarea>
+<input type='text'size='30' name='dog_url' value='".$row->dog_url . "'>
 <br/>
 <input type='submit' name='submit1' value='Save URL'/>
 </form>";
@@ -114,7 +96,7 @@ echo "<a href='https://www.google.com/maps/place/" . $row->address . " " . $row-
 
 echo "<p><b>Phone:</b><br>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</p>";
 
-echo "<p><b>Email Address:</b><br> " . $row->email . "</p>";
+echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "' target='_blank'>Compose using Gmail</p></a>";
 
 echo "<p><b>Driver License Number:</b><br> " . $row->license . "</p>";
 
@@ -164,7 +146,12 @@ $id = $_POST['id'];
 $status = htmlentities($_POST['status'], ENT_QUOTES);
 if (isset($_POST['submit'])){
 //echo "<p> ID: ".$id." status: ".$status."</p>";
+if ($status == 'approved' || $status=='rejected'){
 $current_date = date("Y/m/d");
+}
+elseif($status == 'pending'){
+$current_date == '';
+}
 //echo $current_date;
 if ($status == 'approved' || $status=='rejected' || $status == 'pending')
 {

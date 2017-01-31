@@ -59,18 +59,18 @@ $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
 echo "<h2 style='background-color:".$row_color."'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments</a><br/><br>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
 if($row->dog_url == ''){
-echo "<p>No image  url provided</p>";
+echo "";
 }
 else{
 echo "<img class='dog_image' src='" . $row->dog_url . "'>";
 }
 
-echo "<p><b>Approval Status: </b> " . $row->status . "</p>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
 
 echo "<p><b>Currently own a dog or previously owned dogs:</b><br> " . $row->dog_history . "</p>";

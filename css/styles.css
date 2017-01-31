@@ -2,6 +2,12 @@ body{
 font-family:helvetica;
 }
 
+#container1{
+width:80%;
+margin:auto;
+
+}
+
 .container{
 
 margin: 50px 200px 0px 200px;
@@ -12,4 +18,27 @@ margin: 50px 200px 0px 200px;
 width: 200px;
 float:right;
 
+}
+
+#applicants {
+    font-family: arial;
+    border-collapse: collapse;
+    width:100%;
+}
+
+#applicants td, #applicants th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#applicants tr:nth-child(even){background-color: #f2f2f2;}
+
+#applicants tr:hover {background-color: #ddd;}
+
+#applicants th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: black;
+    color: white;
 }

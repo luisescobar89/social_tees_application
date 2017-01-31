@@ -54,14 +54,40 @@ if ($row->status == "approved"){
 $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
 
+$formatted_date = date("m/d/Y", strtotime($row->date));
+
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
 echo "<h2 style='background-color:".$row_color."'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments</a><br/><br>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
+
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
+
+echo "<form action='' method='POST' id='status_form'>
+<input type='hidden' name='id' value='".$row->id."'>
+<b>Set Approval Status: </b> <select name='status'>
+  <option value=''>Select...</option>
+  <option value='approved'>Approved</option>
+  <option value='rejected'>Rejected</option>
+  <option value='pending'>Pending</option>
+</select>
+
+<input type='submit' name='submit' value='Submit'/>
+</form>";
+
+if ($row->status == 'rejected'){
+echo "<p><b>Application rejected on: </b>". $formatted_date . "</p>";
+}
+elseif ($row->status == 'approved'){
+echo "<p><b>Application approved on: </b>" . $formatted_date . "</p>";
+}
+else{
+echo "<br>";
+}
 
 echo "<form action='' method='POST'>
 <input type='hidden' name='comment_id' value='".$row->id."'>
@@ -88,6 +114,29 @@ echo "No results to display!";
 else
 {
 echo "Error: " . $mysqli->error;
+}
+
+$id = $_POST['id'];
+$status = htmlentities($_POST['status'], ENT_QUOTES);
+if (isset($_POST['submit'])){
+//echo "<p> ID: ".$id." status: ".$status."</p>";
+if ($status == 'approved' || $status=='rejected'){
+$current_date = date("Y/m/d");
+}
+elseif($status == 'pending'){
+$current_date == '';
+}
+//echo $current_date;
+if ($status == 'approved' || $status=='rejected' || $status == 'pending')
+{
+if ($stmt = $mysqli->prepare("UPDATE applicant_info SET status = ?, date = ? WHERE id=?")){
+$stmt->bind_param("ssi", $status, $current_date, $id);
+$stmt->execute();
+$stmt->close();
+}
+//header("Location: index.php");
+echo "<meta http-equiv='refresh' content='0'>";
+}
 }
 
 $comment_id = $_POST['comment_id'];

@@ -3,14 +3,11 @@
 <head>
 <title>Add Records</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<style>
-body{
-font-family: helvetica;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
 </head>
 <body>
+
+<div id="container1">
 
 <h1>Add Record</h1>
 
@@ -99,7 +96,7 @@ $mysqli->close();
 
 
 
-
+</div>
 
 
 
