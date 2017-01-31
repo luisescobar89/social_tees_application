@@ -9,7 +9,7 @@
 
 <div id="container1">
 
-<h1>Search Records</h1>
+<h1>Search Dog Adoption Application Records</h1>
 
 <p><a href="index.php">View All</a> | <b>Search</b> | <a href="new_record.php">Add New Record</a></p>
 
@@ -18,7 +18,7 @@
 <input type="text" name="applicant_name"><br/><br/>
 <b>Search by ID: </b>
 <input type="number" name="applicant_id" value=""><br/><br/>
-<b>Search by Approval/Rejection Date: </b>
+<b>Search by Processed Date: </b>
 <input type="date" name="date"><br/><br>
 
 <input type='submit' name='search_submit' value='Search'/>
@@ -74,7 +74,7 @@ echo "<table id='applicants'>
     <th>Phone</th>
     <th>Email</th>
     <th>Status</th>
-    <th>Approval Date</th>
+    <th>Processing Date</th>
   </tr>";
 
 while ($row = $result->fetch_object())

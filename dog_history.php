@@ -10,9 +10,9 @@
 </head>
 <body>
 
-<a style="margin-left:200px;" href="index.php">Home</a>
+<div id="container1">
 
-<div class="container">
+<a href="index.php">Home</a><br><br>
 
 
 <?php
@@ -57,7 +57,7 @@ $newDate = date("m/d/Y", strtotime($originalDate));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
-echo "<h2 style='background-color:".$row_color."'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
 echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
 

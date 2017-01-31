@@ -2,6 +2,11 @@ body{
 font-family:helvetica;
 }
 
+h2{
+color:white;
+
+}
+
 #container1{
 width:80%;
 margin:auto;

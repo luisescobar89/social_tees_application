@@ -9,7 +9,7 @@
 
 <div id="container1">
 
-<h1>View Records</h1>
+<h1>Dog Adoption Application Records</h1>
 
 <p><b>View All</b> | <a href="search_record.php">Search</a> | <a href="new_record.php">Add New Record</a></p>
 
@@ -22,6 +22,8 @@
   <option value='id'>ID</option>
   <option value='firstname'>First Name</option>
   <option value='lastname'>Last Name</option>
+  <option value='date'>Processing Date</option>
+  <option value='status'>Application Status</option>
 </select>
 
 <input type='submit' name='orderby_submit' value='Submit'/>
@@ -55,7 +57,7 @@ echo "<table id='applicants'>
     <th>Phone</th>
     <th>Email</th>
     <th>Status</th>
-    <th>Approval Date</th>
+    <th>Processing Date</th>
   </tr>";
 
 while ($row = $result->fetch_object())
@@ -79,7 +81,7 @@ $newDate = date("m/d/Y", strtotime($originalDate));
 
 // set up a row for each record
 //echo "<tr style='background-color:".$row_color.";'>";
-echo "<tr>";
+echo "<tr data-href='profile.php'>";
 echo "<td>" . $row->id . "</td>";
 echo "<td><a href='profile.php?id=" . $row->id . "'>".$row->firstname . " " . $row->lastname . "</a></td>";
 //echo "<td>" . $row->firstname . " " . $row->lastname . "</td>";
@@ -101,6 +103,7 @@ else{
 echo "<td></td>";
 }
 
+echo "</tr>";
 
 }
 

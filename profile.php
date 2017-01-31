@@ -11,9 +11,11 @@
 </head>
 <body>
 
-<a style="margin-left:200px;" href="index.php">Home</a>
 
-<div class="container">
+
+<div id="container1">
+
+<a href="index.php">Home</a><br><br>
 
 <?php
 
@@ -59,7 +61,7 @@ $formattedBirth = date("m/d/Y", strtotime($row->birth));
 $formatted_date = date("m/d/Y", strtotime($row->date));
 
 
-echo "<h2 style='background-color:".$row_color."'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
 echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
 
