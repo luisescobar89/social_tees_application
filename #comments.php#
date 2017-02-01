@@ -10,7 +10,7 @@
 
 </head>
 <body>
-
+date_default_timezone_set("America/New_York");
 
 <div id="container1">
 

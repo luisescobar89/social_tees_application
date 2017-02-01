@@ -19,6 +19,9 @@
 
 <?php
 
+date_default_timezone_set("America/New_York");
+
+
 // connect to the database
 include('connect-db.php');
 
@@ -60,6 +63,17 @@ $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
 $formatted_date = date("m/d/Y", strtotime($row->date));
 
+  $birthDate = $formattedBirth;
+  //explode the date to get month, day and year
+  $birthDate = explode("/", $birthDate);
+  //get age from date or birthdate
+  $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
+    ? ((date("Y") - $birthDate[2]) - 1)
+    : (date("Y") - $birthDate[2]));
+  //echo "Age is:" . $age;
+
+$merged_address = $row->address . " " .$row->city .  ", " . $row->state . " " . $row->zip;
+
 
 echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
@@ -98,17 +112,23 @@ echo "<a href='https://www.google.com/maps/place/" . $row->address . " " . $row-
 
 echo "<p><b>Phone:</b><br>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</p>";
 
-echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "' target='_blank'>Compose using Gmail</p></a>";
+//echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "' target='_blank'>Compose using Gmail</p></a>";
+
+echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "&su=Application Approved&body=Name of Dog: ".$row->dog."%0D%0AEmail: " .$row->email."%0D%0AName of Applicant: ". $row->firstname . " " . $row->lastname . "%0D%0ASpreadsheet Number: TBD%0D%0AAge: " . $age . "%0D%0AOccupation: " .$row->occupation ."%0D%0ALiving: ".$merged_address."%0D%0ALiving w/applicant: " . $row->dog_caregiver."%0D%0AAllergies: " .$row->allergies."%0D%0AHours Dog Alone: " .$row->hours_alone . "%0D%0AComments: " .$row->comments. "' target='_blank'>Compose using Gmail</p></a>";
+
+//echo "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=someone@example.com&su=SUBJECT&body=hello+bob%0D%0Afdfdbcc&=someone.else@example.com&tf=1";
 
 echo "<p><b>Driver License Number:</b><br> " . $row->license . "</p>";
 
-echo "<p><b>Date of Birth:</b><br> " . $formattedBirth . "</p>";
+echo "<p><b>Date of Birth:</b><br> " . $formattedBirth . " (" . $age . " years old)</p>";
 
 echo "<p><b>Occupation:</b><br> " . $row->occupation . "</p>";
 
 echo "<p><b>Employer & Contact Info:</b><br> " . $row->employer . "</p>";
 
 echo "<p><b>Work Address:</b><br>" . $row->work_address . "</br>" .$row->work_city .  ", " . $row->work_state . " " . $row->work_zip . "</p>";
+
+//echo "<p>" . date("m/d/Y") . "</p>";
 
 }
 
@@ -128,44 +148,10 @@ else
 echo "Error: " . $mysqli->error;
 }
 
-$applicant_id = $_POST['applicant_id'];
-$dog_url = $_POST['dog_url'];
-if (isset($_POST['submit1'])){
-//echo "<p> ID: ".$comment_id." Comment: ".$comment."</p>";
-if ($stmt1 = $mysqli->prepare("UPDATE applicant_info SET dog_url = ?
-WHERE id=?"))
-{
-$stmt1->bind_param("si", $dog_url, $applicant_id);
-$stmt1->execute();
-$stmt1->close();
-}
-//header("Location: index.php");
-echo "<meta http-equiv='refresh' content='0'>";
-}
 
 
-$id = $_POST['id'];
-$status = htmlentities($_POST['status'], ENT_QUOTES);
-if (isset($_POST['submit'])){
-//echo "<p> ID: ".$id." status: ".$status."</p>";
-if ($status == 'approved' || $status=='rejected'){
-$current_date = date("Y/m/d");
-}
-elseif($status == 'pending'){
-$current_date == '';
-}
-//echo $current_date;
-if ($status == 'approved' || $status=='rejected' || $status == 'pending')
-{
-if ($stmt = $mysqli->prepare("UPDATE applicant_info SET status = ?, date = ? WHERE id=?")){
-$stmt->bind_param("ssi", $status, $current_date, $id);
-$stmt->execute();
-$stmt->close();
-}
-//header("Location: index.php");
-echo "<meta http-equiv='refresh' content='0'>";
-}
-}
+
+
 
 
 
