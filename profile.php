@@ -112,9 +112,9 @@ echo "<a href='https://www.google.com/maps/place/" . $row->address . " " . $row-
 
 echo "<p><b>Phone:</b><br>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</p>";
 
-//echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "' target='_blank'>Compose using Gmail</p></a>";
+echo "<p><b>Email Address:</b><br> " . $row->email . "<br></p>";
 
-echo "<p><b>Email Address:</b><br> " . $row->email . "<br><a href='http://mail.google.com/mail/?view=cm&fs=1&to=" .$row->email. "&su=Application Approved&body=Name of Dog: ".$row->dog."%0D%0AEmail: " .$row->email."%0D%0AName of Applicant: ". $row->firstname . " " . $row->lastname . "%0D%0ASpreadsheet Number: TBD%0D%0AAge: " . $age . "%0D%0AOccupation: " .$row->occupation ."%0D%0ALiving: ".$merged_address."%0D%0ALiving w/applicant: " . $row->dog_caregiver."%0D%0AAllergies: " .$row->allergies."%0D%0AHours Dog Alone: " .$row->hours_alone . "%0D%0AComments: " .$row->comments. "' target='_blank'>Compose using Gmail</p></a>";
+
 
 //echo "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=someone@example.com&su=SUBJECT&body=hello+bob%0D%0Afdfdbcc&=someone.else@example.com&tf=1";
 

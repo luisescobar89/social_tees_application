@@ -6,6 +6,16 @@
 
 <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#approval_table_link").click(function(){
+        $("#approval_table").toggle();
+    });
+});
+</script>
+
+
 
 
 </head>
@@ -39,6 +49,23 @@ if ($result->num_rows > 0)
 {
 
 
+
+echo "<table border='1' ' width='100%' id='approval_table' style='display:none;'>
+  <tr>
+    <th>Name of Dog</th>
+    <th>Email</th>
+    <th>Name of Applicant</th>
+    <th>ID</th>
+    <th>Age</th>
+    <th>Occupation</th>
+    <th>Living</th>
+    <th>Living w/ applicant</th>
+    <th>Allergies</th>
+    <th>Hrs Dog Alone</th>
+    <th>Comments</th>
+  </tr>";
+
+
 while ($row = $result->fetch_object())
 {
 
@@ -59,6 +86,19 @@ $newDate = date("m/d/Y", strtotime($originalDate));
 $formatted_date = date("m/d/Y", strtotime($row->date));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
+
+  $birthDate = $formattedBirth;
+  //explode the date to get month, day and year
+  $birthDate = explode("/", $birthDate);
+  //get age from date or birthdate
+  $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
+    ? ((date("Y") - $birthDate[2]) - 1)
+    : (date("Y") - $birthDate[2]));
+  //echo "Age is:" . $age;
+
+$merged_address = $row->address . " " .$row->city .  ", " . $row->state . " " . $row->zip;
+
+ 
 
 echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
@@ -100,8 +140,30 @@ echo "<form action='' method='POST'>
 <br/>
 <input type='submit' name='submit1' value='Save Comment'/>
 </form>";
+
+echo "<p>To send approval confirmation using Gmail click <a href='http://mail.google.com/mail/?view=cm&fs=1&to=&su=Application Approved&body=Name of Dog: ".$row->dog."%0D%0AEmail: " .$row->email."%0D%0AName of Applicant: ". $row->firstname . " " . $row->lastname . "%0D%0ARecord ID: " . $row->id . "%0D%0AAge: " . $age . "%0D%0AOccupation: " .$row->occupation ."%0D%0ALiving: ".$merged_address."%0D%0ALiving w/applicant: " . $row->dog_caregiver."%0D%0AAllergies: " .$row->allergies."%0D%0AHours Dog Alone: " .$row->hours_alone . "%0D%0AComments: " .$row->comments. "' target='_blank'>here</p></a>";
+
+echo "<tr>";
+echo "<td>" . $row->dog . "</td>";
+echo "<td>" . $row->email . "</td>";
+echo "<td>" . $row->firstname . " " . $row->lastname . "</td>";
+echo "<td>" . $row->id . "</td>";
+echo "<td>" . $age . "</td>";
+echo "<td>" . $row->occupation . "</td>";
+echo "<td>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . $row->zip . "</td>";
+echo "<td>" . $row->dog_caregiver . "</td>";
+echo "<td>" . $row->allergies . "</td>";
+echo "<td>" . $row->hours_alone . "</td>";
+echo "<td>" . $row->comments . "</td>";
+
+
+echo "</tr>";
+
+echo "<a id='approval_table_link' href='#'>Show/Hide Approval Table</a><br><br>";
+
 }
 
+echo "</table>";
 
 }
 
