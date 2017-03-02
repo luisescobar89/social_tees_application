@@ -19,7 +19,6 @@
 
 <?php
 
-date_default_timezone_set("America/New_York");
 
 
 // connect to the database
@@ -59,6 +58,8 @@ if ($row->status == "approved"){
 $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
 
+$submission_date = date("m/d/Y", strtotime($row->submission_date));
+
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
 $formatted_date = date("m/d/Y", strtotime($row->date));
@@ -77,7 +78,7 @@ $merged_address = $row->address . " " .$row->city .  ", " . $row->state . " " . 
 
 echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "'>Comments & Approvals</a><br/><br>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
@@ -93,6 +94,7 @@ echo "<img class='dog_image' src='" . $row->dog_url . "'>";
 echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
 
+echo "<p><b>Application Submitted on: </b>:<br> " . $submission_date . "</p>";
 
 
 
