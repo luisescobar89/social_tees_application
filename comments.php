@@ -22,9 +22,17 @@ $(document).ready(function(){
 <body>
 
 
+<ul>
+<li><a href="index.php">HOME</a></li>
+<li><a href="search_record.php">SEARCH</a></li>
+<li><a href="search_record.php">ADD APPLICANT</a></li>
+</ul>
+
+
+
 <div id="container1">
 
-<a href="index.php">Home</a><br><br>
+
 <?php
 
 
@@ -53,20 +61,6 @@ if ($result->num_rows > 0)
 
 
 
-echo "<table border='1' cellpadding='6' width='100%' id='approval_table' style='display:none;'>
-  <tr>
-    <th>Name of Dog</th>
-    <th>Email</th>
-    <th>Name of Applicant</th>
-    <th>ID</th>
-    <th>Age</th>
-    <th>Occupation</th>
-    <th>Living</th>
-    <th>Living w/ applicant</th>
-    <th>Allergies</th>
-    <th>Hrs Dog Alone</th>
-    <th>Comments</th>
-  </tr>";
 
 
 
@@ -97,6 +91,7 @@ $newDate = date("m/d/Y", strtotime($originalDate));
 $formatted_date = date("m/d/Y H:i:s", strtotime($row->date));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
+$submission_date = date("m/d/Y", strtotime($row->submission_date));
 
   $birthDate = $formattedBirth;
   //explode the date to get month, day and year
@@ -109,13 +104,17 @@ $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
 $merged_address = $row->address . " " .$row->city .  ", " . $row->state . " " . $row->zip;
 
+echo "<h2 style='color:black;'>" . $row->firstname . " " . $row->lastname . "   <span style='font-size:0.8em; padding: 7px; margin-left:30px;  background-color:" . $row_color . "'>" . ucfirst($row->status) .  "</span></h2>";
 
-
-echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
-
-echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
+echo "<p><b>Application Submitted on: </b>" . $submission_date . "<span style='margin-left:40px';><b>Dog(s) looking to adopt: </b> " . $row->dog . "</span></p>";
 
 echo "<hr>";
+
+echo "<div id='container2'>";
+
+echo "<a class='app_nav'  href='profile.php?id=" . $id . "'>View Profile</a><a class='app_nav' href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a></li><a class='app_nav' href='dog_history.php?id=" . $id . "'>Dog Ownership History</a><a class='app_nav' href='household.php?id=" . $id . "'>Household</a><a class='app_nav' id='active' href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
+
+echo "</div>";
 
 if($email_sent == 'true'){
 //echo "Application was approved and email already sent";
@@ -124,6 +123,8 @@ $set_dropdown = "disabled";
 elseif($email_sent == 'false'){
 $set_dropdown = "";
 }
+
+echo "<div id='container8'>";
 
 
 echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
@@ -162,6 +163,23 @@ echo "<form action='' method='POST'>
 
 echo "<p>To send approval confirmation using Gmail click <a href='http://mail.google.com/mail/?view=cm&fs=1&to=&su=Application Approved&body=Name of Dog: ".$row->dog."%0D%0AEmail: " .$row->email."%0D%0AName of Applicant: ". $row->firstname . " " . $row->lastname . "%0D%0ARecord ID: " . $row->id . "%0D%0AAge: " . $age . "%0D%0AOccupation: " .$row->occupation ."%0D%0ALiving: ".$merged_address."%0D%0ALiving w/applicant: " . $row->dog_caregiver."%0D%0AAllergies: " .$row->allergies."%0D%0AHours Dog Alone: " .$row->hours_alone . "%0D%0AComments: " .$row->comments. "' target='_blank'>here</p></a>";
 
+echo "<table border='1' cellpadding='5' width='100%' id='approval_table' style='display:none;'>
+  <tr>
+    <th align='left'>Name of Dog</th>
+    <th>Email</th>
+    <th>Name of Applicant</th>
+    <th>ID</th>
+    <th>Age</th>
+    <th>Occupation</th>
+    <th>Living</th>
+    <th>Living w/ applicant</th>
+    <th>Allergies</th>
+    <th>Hrs Dog Alone</th>
+    <th>Comments</th>
+  </tr>";
+
+
+
 echo "<tr>";
 echo "<td>" . $row->dog . "</td>";
 echo "<td>" . $row->email . "</td>";
@@ -183,6 +201,8 @@ echo "<a id='approval_table_link' href='#'>Show/Hide Approval Table</a><br><br>"
 }
 
 echo "</table>";
+
+echo "</div>";
 
 }
 

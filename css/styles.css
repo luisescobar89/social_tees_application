@@ -8,7 +8,7 @@ color:white;
 }
 
 #container1{
-width:80%;
+width:90%;
 margin:auto;
 
 }
@@ -48,3 +48,133 @@ float:right;
     color: white;
 }
 
+#approval_table{
+    font-size: 0.7em;
+
+
+}
+
+/* navbar css */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    font-family: sans-serif;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 18px 20px;
+    text-decoration: none;
+ 
+}
+
+
+
+li a:hover:not(.active) {
+    color: darkgray;
+}
+/*end of navbar css*/
+
+#container2{
+float:left;
+width: 10%;
+backgorund-color: silver;
+margin-top: 1.1%;
+}
+
+.app_nav{
+    background-color: silver;
+    padding: 40px 10px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#active{
+    border-right: black solid 5px;
+    
+
+}
+
+#active:hover{
+    background-color: darkgrey;
+
+}
+
+
+.app_nav:hover{
+    background-color: darkgrey;
+
+
+}
+
+#container3{
+    float: left;
+    position: absolute;
+    margin-left: 11%;
+    border-radius: 10px;
+    width: 21.6%;
+    margin-top: 1.1%;
+   
+    
+}
+
+.title{
+    background-color: black;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+    
+}
+
+
+
+
+#container5{
+    float:right;
+    width: 51%;
+    margin-right: 10%;
+    margin-top: 1.25%;
+    
+}
+
+#container6{
+    float: left;
+    position: absolute;
+    margin-left: 11%;
+    border-radius: 10px;
+    width: 27%;
+    margin-top: 1.1%;
+   
+    
+}
+
+#container7{
+    float:right;
+    width: 38%;
+    margin-right: 17%;
+    margin-top: 1.25%;
+    
+}
+
+#container8{
+    float: left;
+    position: absolute;
+    margin-left: 11%;
+    border-radius: 10px;
+    width: 75%;
+    margin-top: 1.1%;
+   
+    
+}

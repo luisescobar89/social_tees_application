@@ -10,16 +10,9 @@
 </head>
 <body>
 
-<ul>
-<li><a href="index.php">HOME</a></li>
-<li><a href="search_record.php">SEARCH</a></li>
-<li><a href="search_record.php">ADD APPLICANT</a></li>
-</ul>
-
-
 <div id="container1">
 
-
+<a href="index.php">Home</a><br><br>
 
 <?php
 
@@ -62,30 +55,27 @@ $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
-$submission_date = date("m/d/Y", strtotime($row->submission_date));
 
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<h2 style='color:black;'>" . $row->firstname . " " . $row->lastname . "   <span style='font-size:0.8em; padding: 7px; margin-left:30px;  background-color:" . $row_color . "'>" . ucfirst($row->status) .  "</span></h2>";
-
-echo "<p><b>Application Submitted on: </b>" . $submission_date . "<span style='margin-left:40px';><b>Dog(s) looking to adopt: </b> " . $row->dog . "</span></p>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
-echo "<div id='container2'>";
+if($row->dog_url == ''){
+echo "";
+}
+else{
+echo "<img class='dog_image' src='" . $row->dog_url . "'>";
+}
 
-echo "<a class='app_nav' href='profile.php?id=" . $id . "'>View Profile</a><a class='app_nav' href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a></li><a class='app_nav' href='dog_history.php?id=" . $id . "'>Dog Ownership History</a><a class='app_nav'  id='active' href='household.php?id=" . $id . "'>Household</a><a class='app_nav' href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
-echo "</div>";
+echo "<p><b>Type of residence:</b><br> " . $row->residence_type . "</p>";
 
-echo "<div id='container6'>";
+echo "<p><b>Residence type if other selected:</b><br> " . $row->residence_type_description . "</p>";
 
-echo "<div class='title'>Household Info</div>";
-
-echo "<p><b>Type of residence:</b> " . $row->residence_type . "</p>";
-
-echo "<p><b>Residence type if other selected:</b> " . $row->residence_type_description . "</p>";
-
-echo "<p><b>Current residence time lived:</b> " . $row->current_residence_time . "</p>";
+echo "<p><b>Current residence time lived:</b><br> " . $row->current_residence_time . "</p>";
 
 echo "<p><b>Previous residence address and time lived:</b><br> " . $row->previous_residence_address . "</p>";
 
@@ -106,12 +96,6 @@ echo "<p><b>Fence height:</b><br> " . $row->backyard_fence . "</p>";
 
 echo "<p><b>Household members:</b><br> " . $row->roommates . "</p>";
 
-echo "</div>";
-
-echo "<div id='container7'>";
-
-echo "<div class='title'>Household Info</div>";
-
 echo "<p><b>Others spending time with dog:</b><br> " . $row->sharing_dog . "</p>";
 
 echo "<p><b>Household members with allergies:</b><br> " . $row->allergies . "</p>";
@@ -124,13 +108,11 @@ echo "<p><b>Object to visit before or after adoption:</b><br> " . $row->visit_ob
 
 echo "<p><b>Person who will take care of dog in case of illness:</b><br> " . $row->illness_contact . "</p>";
 
-echo "<div class='title'>Financial Info</div>";
-
 echo "<p><b>Able to financially afford dog:</b><br> " . $row->financial . "</p>";
 
 echo "<p><b>Willing to pay adoption fee:</b><br> " . $row->adoption_fee . "</p>";
 
-echo "</div>";
+
 
 }
 

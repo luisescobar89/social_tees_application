@@ -10,15 +10,9 @@
 </head>
 <body>
 
-<ul>
-<li><a href="index.php">HOME</a></li>
-<li><a href="search_record.php">SEARCH</a></li>
-<li><a href="search_record.php">ADD APPLICANT</a></li>
-</ul>
-
 <div id="container1">
 
-
+<a href="index.php">Home</a><br><br>
 
 
 <?php
@@ -62,25 +56,24 @@ $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
-$submission_date = date("m/d/Y", strtotime($row->submission_date));
 
-echo "<h2 style='color:black;'>" . $row->firstname . " " . $row->lastname . "   <span style='font-size:0.8em; padding: 7px; margin-left:30px;  background-color:" . $row_color . "'>" . ucfirst($row->status) .  "</span></h2>";
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<p><b>Application Submitted on: </b>" . $submission_date . "<span style='margin-left:40px';><b>Dog(s) looking to adopt: </b> " . $row->dog . "</span></p>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
-echo "<div id='container2'>";
+if($row->dog_url == ''){
+echo "";
+}
+else{
+echo "<img class='dog_image' src='" . $row->dog_url . "'>";
+}
 
-echo "<a class='app_nav' href='profile.php?id=" . $id . "'>View Profile</a><a class='app_nav' href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a></li><a class='app_nav'  id='active' href='dog_history.php?id=" . $id . "'>Dog Ownership History</a><a class='app_nav' href='household.php?id=" . $id . "'>Household</a><a class='app_nav' href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
-echo "</div>";
 
-echo "<div id='container3'>";
-
-echo "<div class='title'>History</div>";
-
-echo "<p><b>Currently own a dog or previously owned dogs:</b> " . $row->dog_history . "</p>";
+echo "<p><b>Currently own a dog or previously owned dogs:</b><br> " . $row->dog_history . "</p>";
 
 echo "<p><b>Likes about having a dog:</b><br> " . $row->dog_appeal . "</p>";
 
@@ -99,10 +92,6 @@ echo "<p><b>Animal Surrender Explanation:</b><br>No Response Provided</p>";
 else{
 
 echo "<p><b>Animal Surrender Explanation:</b><br> " . $row->pet_surrender_explanation . "</p>";
-
-echo "</div>";
-
-
 
 }
 

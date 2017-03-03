@@ -10,15 +10,9 @@
 </head>
 <body>
 
-<ul>
-<li><a href="index.php">HOME</a></li>
-<li><a href="search_record.php">SEARCH</a></li>
-<li><a href="search_record.php">ADD APPLICANT</a></li>
-</ul>
-
-
 <div id="container1">
 
+<a href="index.php">Home</a><br><br>
 
 
 <?php
@@ -60,49 +54,45 @@ if ($row->status == "approved"){
 //change date format
 $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
-$submission_date = date("m/d/Y", strtotime($row->submission_date));
 
 $formattedBirth = date("m/d/Y", strtotime($row->birth));
 
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
 
-echo "<h2 style='color:black;'>" . $row->firstname . " " . $row->lastname . "   <span style='font-size:0.8em; padding: 7px; margin-left:30px;  background-color:" . $row_color . "'>" . ucfirst($row->status) .  "</span></h2>";
-
-echo "<p><b>Application Submitted on: </b>" . $submission_date . "<span style='margin-left:40px';><b>Dog(s) looking to adopt: </b> " . $row->dog . "</span></p>";
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
+if($row->dog_url == ''){
+echo "";
+}
+else{
+echo "<img class='dog_image' src='" . $row->dog_url . "'>";
+}
 
-echo "<div id='container2'>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
-echo "<a class='app_nav' ' href='profile.php?id=" . $id . "'>View Profile</a><a id='active' class='app_nav' href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a></li><a class='app_nav' href='dog_history.php?id=" . $id . "'>Dog Ownership History</a><a class='app_nav' href='household.php?id=" . $id . "'>Household</a><a class='app_nav' href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
-
-echo "</div>";
-
-echo "<div id='container3'>";
-
-echo "<div class='title'>Looking for</div>";
-
-echo "<p><b>Desired type of dog:</b><br> " . $row->dog_parameters . "</p>";
+echo "<p><b>Looking for in a dog:</b><br> " . $row->dog_parameters . "</p>";
 
 echo "<p><b>Primary caregiver:</b><br> " . $row->dog_caregiver . "</p>";
 
-echo "<p><b>Household activity level:</b> " . $row->activity_level . "</p>";
+echo "<p><b>Household activity level:</b><br> " . $row->activity_level . "</p>";
 
 echo "<p><b>How will dog relieve itself and get exercise:</b><br> " . $row->dog_exercise . "</p>";
 
-echo "<p><b>Hours outside house:</b> " . $row->hours_outside . " hrs</p>";
+echo "<p><b>Hours outside house:</b><br> " . $row->hours_outside . "</p>";
 
-echo "<p><b>Hours dog will be left alone:</b> " . $row->hours_alone . " hrs</p>";
+echo "<p><b>Hours dog will be left alone:</b><br> " . $row->hours_alone . "</p>";
 
 echo "<p><b>Often traveler, who will take care of dog during travel:</b><br> " . $row->travel . "</p>";
 
-echo "<p><b>Dog stay during day:</b> " . $row->daystay . "</p>";
+echo "<p><b>Dog stay during day:</b><br> " . $row->daystay . "</p>";
 
-echo "<p><b>Dog stay during night:</b> " . $row->nightstay . "</p>";
+echo "<p><b>Dog stay during night:</b><br> " . $row->nightstay . "</p>";
 
 echo "<p><b>Type of training provided for dog:</b><br> " . $row->dog_training . "</p>";
 
-echo "</div>";
+
 
 }
 

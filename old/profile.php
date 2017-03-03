@@ -11,15 +11,11 @@
 </head>
 <body>
 
-<ul>
-<li><a href="index.php">HOME</a></li>
-<li><a href="search_record.php">SEARCH</a></li>
-<li><a href="search_record.php">ADD APPLICANT</a></li>
-</ul>
 
 
 <div id="container1">
 
+<a href="index.php">Home</a><br><br>
 
 <?php
 
@@ -79,23 +75,42 @@ $formatted_date = date("m/d/Y", strtotime($row->date));
 
 $merged_address = $row->address . " " .$row->city .  ", " . $row->state . " " . $row->zip;
 
-echo "<h2 style='color:black;'>" . $row->firstname . " " . $row->lastname . "   <span style='font-size:0.8em; padding: 7px; margin-left:30px;  background-color:" . $row_color . "'>" . ucfirst($row->status) .  "</span></h2>";
 
-echo "<p><b>Application Submitted on: </b>" . $submission_date . "<span style='margin-left:40px';><b>Dog(s) looking to adopt: </b> " . $row->dog . "</span></p>";
+echo "<h2 style='background-color:".$row_color."; padding:10px;'>Applicant Profile: " . $row->firstname . " " . $row->lastname ."</h2>";
+
+echo "<a href='profile.php?id=" . $id . "'>View Profile</a> | <a href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a> | <a href='dog_history.php?id=" . $id . "'>Dog Ownership History</a> | <a href='household.php?id=" . $id . "'>Household</a> | <a href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
 
 echo "<hr>";
 
+if($row->dog_url == ''){
+echo "";
+}
+else{
+echo "<img class='dog_image' src='" . $row->dog_url . "'>";
+}
 
 
-echo "<div id='container2'>";
 
-echo "<a class='app_nav' id='active' href='profile.php?id=" . $id . "'>View Profile</a><a class='app_nav' href='dog_parameters.php?id=" . $id . "'>Dog Parameters</a></li><a class='app_nav' href='dog_history.php?id=" . $id . "'>Dog Ownership History</a><a class='app_nav' href='household.php?id=" . $id . "'>Household</a><a class='app_nav' href='comments.php?id=" . $id . "&email_sent=".$row->email_sent ."'>Comments & Approvals</a><br/><br>";
+echo "<p style='color:blue; font-size:1.5em;';><b>Approval Status: </b><span style='color:".$row_color.";'> " . $row->status . "</p>";
 
-echo "</div>";
 
-echo "<div id='container3'>";
+echo "<p><b>Application Submitted on: </b>:<br> " . $submission_date . "</p>";
 
-echo "<div class='title'>Contact Info</div>";
+
+
+echo "<p><b>Dog(s) looking to adopt</b>:<br> " . $row->dog . "</p>";
+
+echo "<form action='' method='POST'>
+<input type='hidden' name='applicant_id' value='".$row->id."'>
+<b>Dog image URL: </b><br>
+<input type='text'size='30' name='dog_url' value='".$row->dog_url . "'>
+<br/>
+<input type='submit' name='submit1' value='Save URL'/>
+</form>";
+
+echo "<p><b>Applicant's Address: </b><br>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . $row->zip . "<br>";
+echo "<a href='https://www.google.com/maps/place/" . $row->address . " " . $row->city .  ", " . $row->state . " " . $row->zip . "' target='_blank'>Search on Google Maps</a></p>";
+
 
 echo "<p><b>Phone:</b><br>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</p>";
 
@@ -103,11 +118,7 @@ echo "<p><b>Email Address:</b><br> " . $row->email . "<br></p>";
 
 
 
-
-
-
-
-echo "<div class='title'>Personal Info</div>";
+//echo "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=someone@example.com&su=SUBJECT&body=hello+bob%0D%0Afdfdbcc&=someone.else@example.com&tf=1";
 
 echo "<p><b>Driver License Number:</b><br> " . $row->license . "</p>";
 
@@ -119,27 +130,7 @@ echo "<p><b>Employer & Contact Info:</b><br> " . $row->employer . "</p>";
 
 echo "<p><b>Work Address:</b><br>" . $row->work_address . "</br>" .$row->work_city .  ", " . $row->work_state . " " . $row->work_zip . "</p>";
 
-echo "</div>";
-
-echo "<div id='container5'>";
-
-echo "<div class='title'>Applicant's Address: <span style='font-weight:normal;' id=''>" . $merged_address . "</span></div><br>";
-
-
-echo
-"<iframe
-  width='100%'
-  height='450'
-  frameborder='0' style='border:0'
-  src='https://www.google.com/maps/embed/v1/place?key=AIzaSyA6sQwbP241sxfVSDstIN5sfK3zQKRhSsU
-    &q=" . $merged_address ."' allowfullscreen>
-</iframe>";
-
-
-
-
-echo "</div>";
-
+//echo "<p>" . date("m/d/Y") . "</p>";
 
 }
 
@@ -158,6 +149,15 @@ else
 {
 echo "Error: " . $mysqli->error;
 }
+
+
+
+
+
+
+
+
+
 
 }
 
