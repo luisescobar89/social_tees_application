@@ -156,6 +156,9 @@ echo "<form action='' method='POST' id='status_form'>
 if ($row->status == 'rejected'){
 echo "<p><b>Application rejected on: </b>". $formatted_date . "</p>";
 }
+elseif ($row->status == 'approved' && $row->email_sent == 'true'){
+echo "<p><b>Application approved and emailed on: </b>" . $formatted_date . "</p>";
+}
 elseif ($row->status == 'approved'){
 echo "<p><b>Application approved on: </b>" . $formatted_date . "</p>";
 }

@@ -60,6 +60,7 @@ echo "<table id='applicants'>
     <th>Address</th>
     <th>Phone</th>
     <th>Email</th>
+    <th>Dog's Name</th>
     <th>Status</th>
     <th>Processing Date</th>
     <th>Email Sent</th>
@@ -97,6 +98,7 @@ echo "<td>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . 
 //echo "<td>" . $row->phone . "</td>";
 echo "<td>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</td>";
 echo "<td>" . $row->email . "</td>";
+echo "<td>" . $row->dog . "</td>";
 
 echo "<td>" . $row->status . "</td>";
 
