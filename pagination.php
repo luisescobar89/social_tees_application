@@ -7,6 +7,7 @@
 </head>
 <body>
 
+
 <ul>
 <li><a href="index.php">HOME</a></li>
 <li><a href="search_record.php">SEARCH</a></li>
@@ -33,26 +34,41 @@
 <input type='submit' name='orderby_submit' value='Submit'/>
 </form><br>
 
+
 <?php
+error_reporting('E_ALL ^ E_NOTICE');
+
 // connect to the database
 include('connect-db.php');
 
 $order_selected = htmlentities($_POST['order'], ENT_QUOTES);
 
-
-
 if ($order_selected == ''){
 $order_selected = 'id';
 }
 
-
-if ($result = $mysqli->query("SELECT * FROM applicant_info ORDER BY ".$order_selected.""))
+$page=$_REQUEST['p'];
+$limit=5;
+if($page=='')
 {
-
-// display records if there are records to display
-if ($result->num_rows > 0)
+ $page=1;
+ $start=0;
+}
+else
 {
-// display records in a table
+ $start=$limit*($page-1);
+}
+$query=$mysqli->query("SELECT * from applicant_info ORDER BY " .$order_selected." limit $start, $limit");
+$count_total=mysqli_num_rows($query);
+$first_record=max($count_total);
+$tot=$mysqli->query("SELECT * from applicant_info");
+$total=mysqli_num_rows($tot);
+$num_page=ceil($total/$limit);
+
+
+
+echo '<p>Showing ' . $count_total . ' of ' . $total . ' records</p>';
+
 echo "<table id='applicants'>
   <tr>
     <th>ID</th>
@@ -65,42 +81,27 @@ echo "<table id='applicants'>
     <th>Email Sent</th>
   </tr>";
 
-while ($row = $result->fetch_object())
+
+while ($row = $query->fetch_array())
 {
 
-//set row color based on approval status
-if ($row->status == "approved"){
-
-  $row_color = "green";
-} elseif ($row->status == "rejected"){
-  $row_color = "red";
-} elseif ($row->status == "pending"){
-  $row_color = "grey";
-}
-
 //change date format
-$originalDate = $row->date;
+$originalDate = $row['date'];
 $newDate = date("m/d/Y", strtotime($originalDate));
 
 
-
-// set up a row for each record
-//echo "<tr style='background-color:".$row_color.";'>";
 echo "<tr data-href='profile.php'>";
-echo "<td>" . $row->id . "</td>";
-echo "<td><a href='profile.php?id=" . $row->id . "'>".$row->firstname . " " . $row->lastname . "</a></td>";
-//echo "<td>" . $row->firstname . " " . $row->lastname . "</td>";
-echo "<td>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . $row->zip . "</td>";
-//echo "<td>" . $row->city . "</td>";
-//echo "<td>" . $row->state . "</td>";
-//echo "<td>" . $row->zip . "</td>";
-//echo "<td>" . $row->phone . "</td>";
-echo "<td>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</td>";
-echo "<td>" . $row->email . "</td>";
+echo "<td>" . $row['id'] . "</td>";
+echo "<td><a href='profile.php?id=" . $row['id'] . "'>".$row['firstname'] . " " . $row['lastname'] . "</a></td>";
 
-echo "<td>" . $row->status . "</td>";
+echo "<td>" . $row['address'] . "</br>" .$row['city'] .  ", " . $row['state'] . " " . $row['zip'] . "</td>";
 
-if($row->status == "approved" || $row->status == "rejected"){
+echo "<td>(".substr($row['phone'], 0, 3).") ".substr($row['phone'], 3, 3)."-".substr($row['phone'],6)."</td>";
+echo "<td>" . $row['email'] . "</td>";
+
+echo "<td>" . $row['status'] . "</td>";
+
+if($row['status'] == "approved" || $row['status'] == "rejected"){
 echo "<td>" . $newDate . "</td>";
 
 }
@@ -118,41 +119,30 @@ echo "<td>No</td>";
 }
 
 echo "</tr>";
-
 }
+echo'</table>';
 
-
-
-
-
-echo "</table>";
+function pagination($page,$num_page)
+{
+  echo'<ul id="test1" style="list-style-type:none;">';
+  for($i=1;$i<=$num_page;$i++)
+  {
+     if($i==$page)
+{
+ echo'<li id="test" style="float:left;">'.$i.'</li>';
 }
-
-// if there are no records in the database, display an alert message
 else
 {
-echo "No results to display!";
+ echo'<li id="test2" style="float:left;padding:0px;"><a id="test2" href="pagination.php?p='.$i.'">'.$i.'</a></li>';
 }
+  }
+  echo'</ul>';
 }
-// show an error if there is an issue with the database query
-else
+if($num_page>1)
 {
-echo "Error: " . $mysqli->error;
+ pagination($page,$num_page);
 }
-
-
-
-
-
-
-
-// close database connection
-$mysqli->close();
-
-?>
-
-
-
+?> 
 
 </div>
 

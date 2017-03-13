@@ -65,6 +65,7 @@ ul {
 
 li {
     float: left;
+    color:white;
 }
 
 li a {
@@ -83,12 +84,6 @@ li a:hover:not(.active) {
     color: darkgray;
 }
 /*end of navbar css*/
-
-
-
-
-
-
 
 #container2{
 float:left;

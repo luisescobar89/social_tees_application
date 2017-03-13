@@ -42,6 +42,7 @@ include('connect-db.php');
 
 
 $id = $_GET['id'];
+
 $email_sent = $_GET['email_sent'];
 if (isset($_GET['id'])){
 
@@ -116,11 +117,11 @@ echo "<a class='app_nav'  href='profile.php?id=" . $id . "'>View Profile</a><a c
 
 echo "</div>";
 
-if($email_sent == 'true'){
+if($row->status == 'approved'){
 //echo "Application was approved and email already sent";
 $set_dropdown = "disabled";
 }
-elseif($email_sent == 'false'){
+else{
 $set_dropdown = "";
 }
 
@@ -141,11 +142,22 @@ echo "<form action='' method='POST' id='status_form'>
 <input type='submit' name='submit' value='Submit'/>
 </form>";
 
+echo "<form action='' method='POST' id='status_form'>
+<input type='hidden' name='id' value='".$row->id."'>
+<b>Email Status: </b> <select name='email_status'>
+  <option value=''>Select...</option>
+  <option value='true'>Sent</option>
+  <option value='false'>Not Sent</option>
+</select>
+
+<input type='submit' name='email_submit' value='Submit'/>
+</form>";
+
 if ($row->status == 'rejected'){
 echo "<p><b>Application rejected on: </b>". $formatted_date . "</p>";
 }
 elseif ($row->status == 'approved'){
-echo "<p><b>Application approved and emailed on: </b>" . $formatted_date . "</p>";
+echo "<p><b>Application approved on: </b>" . $formatted_date . "</p>";
 }
 else{
 echo "<br>";
@@ -225,16 +237,16 @@ if (isset($_POST['submit'])){
 //echo "<p> ID: ".$id." status: ".$status."</p>";
 if ($status == 'approved'){
 $current_date = date("Y/m/d H:i:s");
-$email_sent="true";
+//$email_sent="true";
 
 }
 elseif($status=='rejected'){
 $current_date = date("Y/m/d H:i:s");
-$email_sent="false";
+//$email_sent="false";
 }
 elseif($status == 'pending'){
 $current_date == '';
-$email_sent="false";
+//$email_sent="false";
 }
 //echo $current_date;
 if ( $status=='rejected' || $status == 'pending')
@@ -256,13 +268,29 @@ $stmt->bind_param("sssi", $status, $current_date, $email_sent, $id);
 $stmt->execute();
 $stmt->close();
 }
+}
 
-header("Location: approval-email.php?id=" . $id . "");
+//header("Location: approval-email.php?id=" . $id . "");
+//header("Location: comments.php?id=" . $id . "&statust=". $status ."");
+echo "<meta http-equiv='refresh' content='0'>";
 
 }
 
-
+$email_status = $_POST['email_status'];
+if (isset($_POST['email_submit'])){
+//echo "<p> ID: ".$comment_id." Comment: ".$comment."</p>";
+if ($stmt1 = $mysqli->prepare("UPDATE applicant_info SET email_sent = ?
+WHERE id=?"))
+{
+$stmt1->bind_param("si", $email_status, $id);
+$stmt1->execute();
+$stmt1->close();
 }
+//header("Location: comments.php");
+echo "<meta http-equiv='refresh' content='0'>";
+}
+
+
 
 $comment_id = $_POST['comment_id'];
 $comment = $_POST['comment'];
@@ -275,8 +303,8 @@ $stmt1->bind_param("si", $comment, $comment_id);
 $stmt1->execute();
 $stmt1->close();
 }
-//header("Location: index.php");
-echo "<meta http-equiv='refresh' content='0'>";
+header("Location: index.php");
+//echo "<meta http-equiv='refresh' content='0'>";
 }
 }
 
