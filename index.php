@@ -55,12 +55,13 @@ if ($result->num_rows > 0)
 // display records in a table
 echo "<table id='applicants'>
   <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Address</th>
+    <th align='center'>ID</th>
+    <th align='center'>Name</th>
+    <th align='center'>Address</th>
     <th>Phone</th>
     <th>Email</th>
     <th>Dog's Name</th>
+    <th>Submission Date</th>
     <th>Status</th>
     <th>Processing Date</th>
     <th>Email Sent</th>
@@ -82,7 +83,7 @@ if ($row->status == "approved"){
 //change date format
 $originalDate = $row->date;
 $newDate = date("m/d/Y", strtotime($originalDate));
-
+$submission_date = date("m/d/Y", strtotime($row->submission_date));
 
 
 // set up a row for each record
@@ -99,7 +100,7 @@ echo "<td>" . $row->address . "</br>" .$row->city .  ", " . $row->state . " " . 
 echo "<td>(".substr($row->phone, 0, 3).") ".substr($row->phone, 3, 3)."-".substr($row->phone,6)."</td>";
 echo "<td>" . $row->email . "</td>";
 echo "<td>" . $row->dog . "</td>";
-
+echo "<td>" . $submission_date . "</td>";
 echo "<td>" . $row->status . "</td>";
 
 if($row->status == "approved" || $row->status == "rejected"){
